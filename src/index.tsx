@@ -1,6 +1,8 @@
+import 'bulmaswatch/superhero/bulmaswatch.min.css';
 import * as esbuild from 'esbuild-wasm';
-import { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
+import CodeEditor from './components/code-editor';
+import { useState, useEffect, useRef } from 'react';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { fetchPlugin } from './plugins/fetch-plugin';
 
@@ -46,34 +48,38 @@ const App = () => {
     };
 
     const html = `
-            <html>
-                <head>
-                </head>
-                <body>
-                    <div id="root">
-                        <script>
-                        window.addEventListener('message', (e) => {
-                            try {
-                                eval(e.data);
-                            } catch (err) {
-                                const root = document.querySelector('#root');
-                                root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
-                                console.error(err);
-                            }
-                        }, false)
-                        </script>
-                    </div>
-                </body>
-            </html>
+        <html>
+            <head>
+            </head>
+            <body>
+                <div id='root'>
+                    <script>
+                    window.addEventListener('message', (e) => {
+                        try {
+                            eval(e.data);
+                        } catch (err) {
+                            const root = document.querySelector('#root');
+                            root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
+                            console.error(err);
+                        }
+                    }, false)
+                    </script>
+                </div>
+            </body>
+        </html>
     `;
 
     return (
         <div>
-            <textarea value={input} onChange={e => setInput(e.target.value)}/>
+            <CodeEditor
+                initialVaule={'console.log(\'hi there\');'}
+                onChange={(value) => setInput(value)}
+            />
+            <textarea value={input} onChange={e => setInput(e.target.value)} />
             <div>
                 <button onClick={onClick}>Submit</button>
             </div>
-            <iframe title={'preview'} ref={iframe} sandbox={"allow-scripts"} srcDoc={html} />
+            <iframe title={'preview'} ref={iframe} sandbox={'allow-scripts'} srcDoc={html} />
         </div>
     );
 };
