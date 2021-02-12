@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
-import { ActionType } from './action-types';
+import { persistMiddleware } from './middlewares/persist-middleware';
 
 declare global {
     interface Window {
@@ -11,36 +11,4 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(thunk)));
-
-store.dispatch({
-    type: ActionType.INSERT_CELL_AFTER,
-    payload: {
-        id: null,
-        type: 'code'
-    }
-})
-
-store.dispatch({
-    type: ActionType.INSERT_CELL_AFTER,
-    payload: {
-        id: null,
-        type: 'text'
-    }
-})
-
-store.dispatch({
-    type: ActionType.INSERT_CELL_AFTER,
-    payload: {
-        id: null,
-        type: 'code'
-    }
-})
-
-store.dispatch({
-    type: ActionType.INSERT_CELL_AFTER,
-    payload: {
-        id: null,
-        type: 'text'
-    }
-})
+export const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(persistMiddleware, thunk)));
