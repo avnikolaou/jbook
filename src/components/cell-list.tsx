@@ -5,8 +5,6 @@ import AddCell from './add-cell';
 import './cell-list.css';
 import { useActions } from '../hooks/use-actions';
 
-
-
 const CellList: React.FC = () => {
     const cells = useTypedSelector(({ cells: { order, data } }) => {
         return order.map((id) => {
